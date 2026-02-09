@@ -1,0 +1,39 @@
+version: '3.9'
+
+services:
+  mongodb:
+    image: mongo:7
+    restart: unless-stopped
+    ports:
+      - '27017:27017'
+    volumes:
+      - mongo-data:/data/db
+
+  authentication:
+    build:
+      context: .
+      dockerfile: apps/authentication/Dockerfile
+    environment:
+      - AUTH_TCP_HOST=0.0.0.0
+      - AUTH_TCP_PORT=4001
+      - MONGO_URI=mongodb://mongodb:27017/auth
+    depends_on:
+      - mongodb
+
+  gateway:
+    build:
+      context: .
+      dockerfile: apps/gateway/Dockerfile
+    environment:
+      - GATEWAY_PORT=3000
+      - AUTH_TCP_HOST=authentication
+      - AUTH_TCP_PORT=4001
+      - CACHE_TTL_SECONDS=20
+      - MONGO_URI=mongodb://mongodb:27017/auth
+    ports:
+      - '3000:3000'
+    depends_on:
+      - authentication
+
+volumes:
+  mongo-data:

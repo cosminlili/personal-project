@@ -1,0 +1,3 @@
+export const TCP_SERVICE = {
+  AUTHENTICATION: 'AUTHENTICATION_SERVICE'
+} as const;
