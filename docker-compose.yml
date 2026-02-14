@@ -17,6 +17,8 @@ services:
       - AUTH_TCP_HOST=0.0.0.0
       - AUTH_TCP_PORT=4001
       - MONGO_URI=mongodb://mongodb:27017/auth
+      - JWT_SECRET=SCtui9fcCaqmziuQf1SkFJ3fI8fdH3dNzusSEIVTKIA=
+      - JWT_EXPIRES_IN=1h
     depends_on:
       - mongodb
 
@@ -30,6 +32,8 @@ services:
       - AUTH_TCP_PORT=4001
       - CACHE_TTL_SECONDS=20
       - MONGO_URI=mongodb://mongodb:27017/auth
+      - JWT_SECRET=SCtui9fcCaqmziuQf1SkFJ3fI8fdH3dNzusSEIVTKIA=
+      - JWT_EXPIRES_IN=1h
     ports:
       - '3000:3000'
     depends_on:
