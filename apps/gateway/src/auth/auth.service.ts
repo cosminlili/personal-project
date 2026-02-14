@@ -35,9 +35,9 @@ export class AuthService {
 
   async listUsers(): Promise<UsersListRto> {
     try {
-      const users = await this.networkingService.send<UserRto[], void>(
+      const users = await this.networkingService.send<UserRto[], {}>(
         MESSAGE_PATTERNS.AUTH_USERS_LIST,
-        undefined
+        {}
       );
       return { users };
     } catch (error) {

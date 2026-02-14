@@ -8,6 +8,9 @@ export class User extends Document {
 
   @Prop({ required: true })
   passwordHash!: string;
+  
+  createdAt: any;
+  updatedAt: any;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

@@ -33,8 +33,8 @@ export class AuthService {
     return {
       id: user._id.toString(),
       email: user.email,
-      createdAt: (new Date()).toISOString(),
-      updatedAt: (new Date()).toISOString()
+      createdAt: user.createdAt.toISOString(),
+      updatedAt: user.updatedAt.toISOString()
     };
   }
 }
