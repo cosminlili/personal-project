@@ -11,4 +11,4 @@ RUN npm run build
 
 ENV NODE_ENV=production
 
-CMD ["node", "dist/apps/authentication/main.js"]
+CMD ["node", "dist/apps/authentication/src/main.js"]
