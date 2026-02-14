@@ -4,9 +4,11 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { envValidationSchema } from '@config/env.validation';
 import { TCP_SERVICE } from '@core/tcp.constants';
+import { JwtTokenService } from '@core/jwt-token.service';
 import { AuthController } from './auth/auth.controller';
 import { AuthService } from './auth/auth.service';
 import { NetworkingService } from './auth/networking.service';
+import { JwtAuthGuard } from './auth/jwt-auth.guard';
 
 @Module({
   imports: [
@@ -33,6 +35,6 @@ import { NetworkingService } from './auth/networking.service';
     ])
   ],
   controllers: [AuthController],
-  providers: [AuthService, NetworkingService]
+  providers: [AuthService, NetworkingService, JwtAuthGuard, JwtTokenService]
 })
 export class AppModule {}

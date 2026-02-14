@@ -1,12 +1,15 @@
 import {
   ConflictException,
   Injectable,
-  InternalServerErrorException
+  InternalServerErrorException,
+  UnauthorizedException
 } from '@nestjs/common';
 import { RegisterUserDto } from '@common/dto/register-user.dto';
+import { LoginUserDto } from '@common/dto/login-user.dto';
 import { MESSAGE_PATTERNS } from '@common/constants/message-patterns';
 import { UserRto } from '@common/rtos/user.rto';
 import { UsersListRto } from '@common/rtos/users-list.rto';
+import { AuthTokenRto } from '@common/rtos/auth-token.rto';
 import { NetworkingService } from './networking.service';
 
 interface MicroserviceError {
@@ -30,6 +33,21 @@ export class AuthService {
         throw new ConflictException(microError.message ?? 'Email already registered');
       }
       throw new InternalServerErrorException(microError?.message ?? 'Unable to register user');
+    }
+  }
+
+  async login(payload: LoginUserDto): Promise<AuthTokenRto> {
+    try {
+      return await this.networkingService.send<AuthTokenRto, LoginUserDto>(
+        MESSAGE_PATTERNS.AUTH_LOGIN,
+        payload
+      );
+    } catch (error) {
+      const microError = this.normalizeMicroserviceError(error);
+      if (microError?.code === 'INVALID_CREDENTIALS') {
+        throw new UnauthorizedException(microError.message ?? 'Invalid credentials');
+      }
+      throw new InternalServerErrorException(microError?.message ?? 'Unable to login user');
     }
   }
 

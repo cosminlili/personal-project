@@ -1,14 +1,22 @@
 import { Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { RpcException } from '@nestjs/microservices';
 import * as bcrypt from 'bcrypt';
 import { RegisterUserDto } from '@common/dto/register-user.dto';
+import { LoginUserDto } from '@common/dto/login-user.dto';
 import { UserRto } from '@common/rtos/user.rto';
+import { AuthTokenRto } from '@common/rtos/auth-token.rto';
+import { JwtTokenService } from '@core/jwt-token.service';
 import { UserRepository } from './user.repository';
 import { User } from './user.schema';
 
 @Injectable()
 export class AuthService {
-  constructor(private readonly userRepository: UserRepository) {}
+  constructor(
+    private readonly userRepository: UserRepository,
+    private readonly configService: ConfigService,
+    private readonly jwtTokenService: JwtTokenService
+  ) {}
 
   async register(payload: RegisterUserDto): Promise<UserRto> {
     try {
@@ -22,6 +30,29 @@ export class AuthService {
       }
       throw new RpcException({ code: 'REGISTER_FAILED', message: 'Unable to register user' });
     }
+  }
+
+  async login(payload: LoginUserDto): Promise<AuthTokenRto> {
+    const user = await this.userRepository.findByEmail(payload.email);
+    if (!user) {
+      throw new RpcException({ code: 'INVALID_CREDENTIALS', message: 'Invalid credentials' });
+    }
+
+    const passwordMatches = await bcrypt.compare(payload.password, user.passwordHash);
+    if (!passwordMatches) {
+      throw new RpcException({ code: 'INVALID_CREDENTIALS', message: 'Invalid credentials' });
+    }
+
+    const jwtSecret = this.configService.getOrThrow<string>('JWT_SECRET');
+    const expiresIn = this.configService.getOrThrow<string>('JWT_EXPIRES_IN');
+
+    return {
+      accessToken: this.jwtTokenService.sign(
+        { sub: user._id.toString(), email: user.email },
+        jwtSecret,
+        expiresIn
+      )
+    };
   }
 
   async listUsers(): Promise<UserRto[]> {

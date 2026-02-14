@@ -10,6 +10,10 @@ export class UserRepository {
     return createdUser.save();
   }
 
+  async findByEmail(email: string): Promise<User | null> {
+    return this.userModel.findOne({ email: email.toLowerCase() }).exec();
+  }
+
   async findAll(): Promise<User[]> {
     return this.userModel.find().sort({ createdAt: -1 }).exec();
   }
