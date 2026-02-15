@@ -5,6 +5,7 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
 import { envValidationSchema } from '@config/env.validation';
 import { TCP_SERVICE } from '@core/tcp.constants';
 import { JwtTokenService } from '@core/jwt-token.service';
+import { LoggingModule } from '@common/logging/logging.module';
 import { AuthController } from './auth/auth.controller';
 import { AuthService } from './auth/auth.service';
 import { NetworkingService } from './auth/networking.service';
@@ -15,6 +16,7 @@ import { HealthService } from './health/health.service';
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true, validationSchema: envValidationSchema }),
+    LoggingModule,
     CacheModule.registerAsync({
       isGlobal: true,
       inject: [ConfigService],

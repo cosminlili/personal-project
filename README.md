@@ -9,6 +9,7 @@ This repository contains a NestJS monorepo with two applications:
 - **MVC layering**: Controller → Service → Repository.
 - **Gateway** communicates with **Authentication** using NestJS Microservices over TCP via a `NetworkingService`.
 - **Shared contracts** live in `common/` (DTOs, RTOs, and message pattern constants).
+- **Centralized logging** is provided by a global `LoggingModule` with HTTP/RPC interceptors and a shared logger service.
 
 ## API Endpoints
 - `POST /auth/register` — register a new user.
@@ -80,3 +81,4 @@ npm run test:gateway
 - Input validation is enforced in the gateway using `class-validator` with a global validation pipe.
 - Authentication service owns MongoDB models and schemas.
 - Authentication readiness uses a MongoDB ping in the microservice and is surfaced via gateway `/health/ready`.
+- Request/response observability is centralized through `CentralLoggerService`, including gateway HTTP logs and TCP message logs.

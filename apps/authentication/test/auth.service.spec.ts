@@ -2,6 +2,7 @@ import { ConfigService } from '@nestjs/config';
 import { RpcException } from '@nestjs/microservices';
 import * as bcrypt from 'bcrypt';
 import { JwtTokenService } from '@core/jwt-token.service';
+import { CentralLoggerService } from '@common/logging/central-logger.service';
 import { AuthService } from '../src/auth/auth.service';
 import { UserRepository } from '../src/auth/user.repository';
 
@@ -32,7 +33,8 @@ describe('AuthService', () => {
     const service = new AuthService(
       mockRepository as UserRepository,
       mockConfigService as ConfigService,
-      new JwtTokenService()
+      new JwtTokenService(),
+      { log: jest.fn(), warn: jest.fn(), error: jest.fn(), debug: jest.fn() } as unknown as CentralLoggerService
     );
 
     const result = await service.register({
@@ -62,7 +64,8 @@ describe('AuthService', () => {
     const service = new AuthService(
       mockRepository as UserRepository,
       mockConfigService as ConfigService,
-      new JwtTokenService()
+      new JwtTokenService(),
+      { log: jest.fn(), warn: jest.fn(), error: jest.fn(), debug: jest.fn() } as unknown as CentralLoggerService
     );
 
     const result = await service.login({
@@ -82,7 +85,8 @@ describe('AuthService', () => {
     const service = new AuthService(
       mockRepository as UserRepository,
       mockConfigService as ConfigService,
-      new JwtTokenService()
+      new JwtTokenService(),
+      { log: jest.fn(), warn: jest.fn(), error: jest.fn(), debug: jest.fn() } as unknown as CentralLoggerService
     );
 
     await expect(
@@ -101,7 +105,8 @@ describe('AuthService', () => {
     const service = new AuthService(
       mockRepository as UserRepository,
       mockConfigService as ConfigService,
-      new JwtTokenService()
+      new JwtTokenService(),
+      { log: jest.fn(), warn: jest.fn(), error: jest.fn(), debug: jest.fn() } as unknown as CentralLoggerService
     );
 
     const result = await service.healthCheck();
