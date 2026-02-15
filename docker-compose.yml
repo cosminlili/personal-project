@@ -8,6 +8,11 @@ services:
       - '27017:27017'
     volumes:
       - mongo-data:/data/db
+    healthcheck:
+      test: ['CMD', 'mongosh', '--quiet', '--eval', 'db.adminCommand({ ping: 1 }).ok']
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   authentication:
     build:
@@ -20,7 +25,19 @@ services:
       - JWT_SECRET=SCtui9fcCaqmziuQf1SkFJ3fI8fdH3dNzusSEIVTKIA=
       - JWT_EXPIRES_IN=1h
     depends_on:
-      - mongodb
+      mongodb:
+        condition: service_healthy
+    healthcheck:
+      test:
+        [
+          'CMD',
+          'node',
+          '-e',
+          "require('net').createConnection({host:'127.0.0.1',port:4001}).on('connect',()=>process.exit(0)).on('error',()=>process.exit(1))"
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   gateway:
     build:
@@ -37,7 +54,13 @@ services:
     ports:
       - '3000:3000'
     depends_on:
-      - authentication
+      authentication:
+        condition: service_healthy
+    healthcheck:
+      test: ['CMD', 'wget', '-qO-', 'http://127.0.0.1:3000/health/live']
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
 volumes:
   mongo-data:

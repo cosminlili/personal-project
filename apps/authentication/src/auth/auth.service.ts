@@ -6,6 +6,7 @@ import { RegisterUserDto } from '@common/dto/register-user.dto';
 import { LoginUserDto } from '@common/dto/login-user.dto';
 import { UserRto } from '@common/rtos/user.rto';
 import { AuthTokenRto } from '@common/rtos/auth-token.rto';
+import { HealthStatusRto } from '@common/rtos/health-status.rto';
 import { JwtTokenService } from '@core/jwt-token.service';
 import { UserRepository } from './user.repository';
 import { User } from './user.schema';
@@ -58,6 +59,21 @@ export class AuthService {
   async listUsers(): Promise<UserRto[]> {
     const users = await this.userRepository.findAll();
     return users.map((user) => this.toUserRto(user));
+  }
+
+  async healthCheck(): Promise<HealthStatusRto> {
+    try {
+      const isDatabaseReady = await this.userRepository.isDatabaseReady();
+
+      return {
+        status: isDatabaseReady ? 'ok' : 'error',
+        service: 'authentication',
+        database: isDatabaseReady ? 'up' : 'down',
+        timestamp: new Date().toISOString()
+      };
+    } catch (_error) {
+      throw new RpcException({ code: 'HEALTH_CHECK_FAILED', message: 'Authentication service is not ready' });
+    }
   }
 
   private toUserRto(user: User): UserRto {

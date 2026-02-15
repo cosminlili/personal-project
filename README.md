@@ -12,8 +12,9 @@ This repository contains a NestJS monorepo with two applications:
 
 ## API Endpoints
 - `POST /auth/register` — register a new user.
-- `POST /auth/login` — authenticate a user and return a JWT access token.
-- `GET /auth/users` — list all users (cached with Nest CacheModule and protected by JWT bearer auth).
+- `GET /auth/users` — list all users (cached with Nest CacheModule).
+- `GET /health/live` — liveness probe for gateway process.
+- `GET /health/ready` — readiness probe (checks TCP connectivity to authentication service).
 
 Swagger UI is available at: `http://localhost:3000/docs`.
 
@@ -68,10 +69,14 @@ npm test
 
 # Run only auth tests
 npm run test:auth
+
+# Run only gateway tests
+npm run test:gateway
 ```
 
 ## Notes
 - Duplicate email registration returns **409 Conflict** from the gateway.
 - Invalid login credentials return **401 Unauthorized** from the gateway.
 - Input validation is enforced in the gateway using `class-validator` with a global validation pipe.
-- Authentication service owns MongoDB models, schemas, and token generation.
+- Authentication service owns MongoDB models and schemas.
+- Authentication readiness uses a MongoDB ping in the microservice and is surfaced via gateway `/health/ready`.

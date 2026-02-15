@@ -9,6 +9,8 @@ import { AuthController } from './auth/auth.controller';
 import { AuthService } from './auth/auth.service';
 import { NetworkingService } from './auth/networking.service';
 import { JwtAuthGuard } from './auth/jwt-auth.guard';
+import { HealthController } from './health/health.controller';
+import { HealthService } from './health/health.service';
 
 @Module({
   imports: [
@@ -34,7 +36,7 @@ import { JwtAuthGuard } from './auth/jwt-auth.guard';
       }
     ])
   ],
-  controllers: [AuthController],
-  providers: [AuthService, NetworkingService, JwtAuthGuard, JwtTokenService]
+  controllers: [AuthController, HealthController],
+  providers: [AuthService, NetworkingService, JwtAuthGuard, JwtTokenService, HealthService]
 })
 export class AppModule {}

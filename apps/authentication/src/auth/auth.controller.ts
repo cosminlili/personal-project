@@ -5,6 +5,7 @@ import { LoginUserDto } from '@common/dto/login-user.dto';
 import { MESSAGE_PATTERNS } from '@common/constants/message-patterns';
 import { UserRto } from '@common/rtos/user.rto';
 import { AuthTokenRto } from '@common/rtos/auth-token.rto';
+import { HealthStatusRto } from '@common/rtos/health-status.rto';
 import { AuthService } from './auth.service';
 
 @Controller()
@@ -24,5 +25,10 @@ export class AuthController {
   @MessagePattern(MESSAGE_PATTERNS.AUTH_USERS_LIST)
   async listUsers(): Promise<UserRto[]> {
     return this.authService.listUsers();
+  }
+
+  @MessagePattern(MESSAGE_PATTERNS.AUTH_HEALTH)
+  async healthCheck(): Promise<HealthStatusRto> {
+    return this.authService.healthCheck();
   }
 }

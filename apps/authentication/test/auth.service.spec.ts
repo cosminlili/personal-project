@@ -25,7 +25,8 @@ describe('AuthService', () => {
         email: 'user@example.com',
         createdAt: new Date('2024-01-01T00:00:00.000Z'),
         updatedAt: new Date('2024-01-01T00:00:00.000Z')
-      })
+      }),
+      isDatabaseReady: jest.fn().mockResolvedValue(true)
     };
 
     const service = new AuthService(
@@ -54,7 +55,8 @@ describe('AuthService', () => {
         _id: '507f1f77bcf86cd799439011',
         email: 'user@example.com',
         passwordHash
-      })
+      }),
+      isDatabaseReady: jest.fn().mockResolvedValue(true)
     };
 
     const service = new AuthService(
@@ -73,7 +75,8 @@ describe('AuthService', () => {
 
   it('throws rpc exception when credentials are invalid', async () => {
     const mockRepository: Partial<UserRepository> = {
-      findByEmail: jest.fn().mockResolvedValue(null)
+      findByEmail: jest.fn().mockResolvedValue(null),
+      isDatabaseReady: jest.fn().mockResolvedValue(true)
     };
 
     const service = new AuthService(
@@ -88,5 +91,23 @@ describe('AuthService', () => {
         password: 'password123'
       })
     ).rejects.toBeInstanceOf(RpcException);
+  });
+
+  it('returns healthy status when database is ready', async () => {
+    const mockRepository: Partial<UserRepository> = {
+      isDatabaseReady: jest.fn().mockResolvedValue(true)
+    };
+
+    const service = new AuthService(
+      mockRepository as UserRepository,
+      mockConfigService as ConfigService,
+      new JwtTokenService()
+    );
+
+    const result = await service.healthCheck();
+
+    expect(result.status).toBe('ok');
+    expect(result.database).toBe('up');
+    expect(result.service).toBe('authentication');
   });
 });
