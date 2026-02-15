@@ -17,6 +17,13 @@ This repository contains a NestJS monorepo with two applications:
 - `GET /health/live` — liveness probe for gateway process.
 - `GET /health/ready` — readiness probe (checks TCP connectivity to authentication service).
 
+Rate limiting is enabled in the gateway. Default limits are configurable and can be overridden per endpoint:
+- `POST /auth/register`: 10 requests / 60 seconds.
+- `POST /auth/login`: 20 requests / 60 seconds.
+- `GET /auth/users`: 60 requests / 60 seconds.
+- `/health/*` probes are excluded from throttling.
+- Login/register throttling uses an email-based bucket (`email + method + path`) so repeated attempts for the same account are blocked consistently, even behind proxies.
+
 Swagger UI is available at: `http://localhost:3000/docs`.
 
 ## Repository Structure
@@ -38,6 +45,8 @@ AUTH_TCP_HOST=127.0.0.1
 AUTH_TCP_PORT=4001
 MONGO_URI=mongodb://localhost:27017/auth
 CACHE_TTL_SECONDS=20
+RATE_LIMIT_TTL_SECONDS=60
+RATE_LIMIT_MAX_REQUESTS=30
 JWT_SECRET=super-secret-jwt-key-change-this-value
 JWT_EXPIRES_IN=1h
 ```

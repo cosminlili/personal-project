@@ -48,6 +48,8 @@ services:
       - AUTH_TCP_HOST=authentication
       - AUTH_TCP_PORT=4001
       - CACHE_TTL_SECONDS=20
+      - RATE_LIMIT_TTL_SECONDS=60
+      - RATE_LIMIT_MAX_REQUESTS=30
       - MONGO_URI=mongodb://mongodb:27017/auth
       - JWT_SECRET=SCtui9fcCaqmziuQf1SkFJ3fI8fdH3dNzusSEIVTKIA=
       - JWT_EXPIRES_IN=1h

@@ -1,9 +1,11 @@
 import { Controller, Get } from '@nestjs/common';
 import { ApiOkResponse, ApiServiceUnavailableResponse, ApiTags } from '@nestjs/swagger';
 import { HealthStatusRto } from '@common/rtos/health-status.rto';
+import { SkipRateLimit } from '../rate-limit/rate-limit.decorator';
 import { HealthService } from './health.service';
 
 @ApiTags('health')
+@SkipRateLimit()
 @Controller('health')
 export class HealthController {
   constructor(private readonly healthService: HealthService) {}
