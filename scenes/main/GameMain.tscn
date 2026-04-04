@@ -1,0 +1,30 @@
+[gd_scene format=3 uid="uid://cyl5g3t4tfe48"]
+
+[ext_resource type="PackedScene" uid="uid://due538r88sac8" path="res://scenes/world/TestMap.tscn" id="1_1iy7v"]
+[ext_resource type="Script" uid="uid://dkha12584tlt8" path="res://scripts/game_main.gd" id="1_od6pc"]
+[ext_resource type="PackedScene" uid="uid://c8m207rarokcd" path="res://scenes/player/Player.tscn" id="1_ojo6u"]
+[ext_resource type="PackedScene" uid="uid://cvmts0g7wci5v" path="res://scenes/ui/Hud.tscn" id="4_23cjt"]
+
+[node name="GameMain" type="Node2D" unique_id=471460344]
+script = ExtResource("1_od6pc")
+
+[node name="World" type="Node2D" parent="." unique_id=1559640702]
+
+[node name="TestMap" parent="World" unique_id=607592558 instance=ExtResource("1_1iy7v")]
+position = Vector2(171, 3)
+
+[node name="PlayerSpawn" type="Marker2D" parent="." unique_id=338764651]
+position = Vector2(887, 326)
+
+[node name="UI" type="CanvasLayer" parent="." unique_id=2120021650]
+
+[node name="Player" parent="." unique_id=489678767 instance=ExtResource("1_ojo6u")]
+position = Vector2(478, 335)
+up_direction = Vector2(0, 1)
+
+[node name="Hud" parent="." unique_id=908872666 instance=ExtResource("4_23cjt")]
+offset_left = 199.0
+offset_top = 135.00002
+offset_right = 199.0
+offset_bottom = 135.00002
+scale = Vector2(-0.77565575, -3.0272236)

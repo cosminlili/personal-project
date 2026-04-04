@@ -1,0 +1,25 @@
+[gd_scene format=3 uid="uid://cvmts0g7wci5v"]
+
+[ext_resource type="Script" uid="uid://d4ivhkit3xdym" path="res://scripts/ui/hud.gd" id="1_emh6u"]
+
+[node name="Hud" type="Control" unique_id=908872666]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=764270856]
+script = ExtResource("1_emh6u")
+
+[node name="ManaLabel" type="Label" parent="CanvasLayer" unique_id=1110911471]
+anchors_preset = -1
+anchor_right = 0.1015625
+anchor_bottom = 0.03549383
+metadata/_edit_use_anchors_ = true
+
+[node name="HeatLabel" type="Label" parent="CanvasLayer" unique_id=960421189]
+offset_top = 25.0
+offset_right = 117.0
+offset_bottom = 48.0

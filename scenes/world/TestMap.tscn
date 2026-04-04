@@ -1,0 +1,45 @@
+[gd_scene format=3 uid="uid://due538r88sac8"]
+
+[node name="TestMap" type="Node2D" unique_id=607592558]
+
+[node name="Ground" type="Node2D" parent="." unique_id=313609942]
+position = Vector2(3, 0)
+
+[node name="Polygon2D" type="Polygon2D" parent="Ground" unique_id=178259140]
+position = Vector2(-3, -2)
+color = Color(0.22996828, 0.63942367, 0.34743926, 1)
+polygon = PackedVector2Array(-1000, -1000, 1000, -1000, 1000, 1000, -1000, 1000)
+
+[node name="Markers" type="Node2D" parent="." unique_id=722913784]
+
+[node name="MarkerRed" type="Polygon2D" parent="Markers" unique_id=1701204650]
+position = Vector2(288, 176)
+color = Color(0.49803922, 0.5137255, 0.5254902, 1)
+polygon = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
+uv = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
+
+[node name="MarkerYellow" type="Polygon2D" parent="Markers" unique_id=1327378781]
+position = Vector2(249, 106)
+color = Color(0.9423695, 1, 0.6232538, 1)
+polygon = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
+uv = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
+
+[node name="MarkerBlue" type="Polygon2D" parent="Markers" unique_id=2036675283]
+position = Vector2(311, 104)
+color = Color(0.24192205, 0.27555895, 0.68601584, 1)
+polygon = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
+uv = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
+
+[node name="Obstacles" type="Node2D" parent="." unique_id=699517075]
+
+[node name="Rock1" type="Polygon2D" parent="Obstacles" unique_id=443026594]
+position = Vector2(228, 263)
+color = Color(0.49803922, 0.5137255, 0.5254902, 1)
+polygon = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
+uv = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
+
+[node name="Rock2" type="Polygon2D" parent="Obstacles" unique_id=1646394910]
+position = Vector2(190, 106)
+color = Color(0.81684935, 0.33777246, 0.5789634, 1)
+polygon = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
+uv = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)

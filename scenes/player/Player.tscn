@@ -1,0 +1,25 @@
+[gd_scene format=3 uid="uid://c8m207rarokcd"]
+
+[ext_resource type="Script" uid="uid://c0vq0m3b5e5gm" path="res://scripts/player/player_controller.gd" id="1_wr5hl"]
+[ext_resource type="Texture2D" uid="uid://dm8ty08e3ymti" path="res://art/sprites/player_placeholder.png" id="2_gfjak"]
+[ext_resource type="Script" uid="uid://30tcjcejjhf6" path="res://scripts/components/mana_heat_component.gd" id="3_4kuee"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_o8nba"]
+size = Vector2(22, 24)
+
+[node name="Player" type="CharacterBody2D" unique_id=489678767]
+script = ExtResource("1_wr5hl")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=905418402]
+position = Vector2(-1, -3)
+texture = ExtResource("2_gfjak")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=48648481]
+position = Vector2(52, 54)
+shape = SubResource("RectangleShape2D_o8nba")
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=1212008881]
+position = Vector2(98, -8)
+
+[node name="ManaHeatComponent" type="Node" parent="." unique_id=881310331]
+script = ExtResource("3_4kuee")
